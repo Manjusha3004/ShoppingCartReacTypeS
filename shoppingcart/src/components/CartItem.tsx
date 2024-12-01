@@ -1,9 +1,6 @@
 import { Button, Stack } from "react-bootstrap"
 import { useShoppingCart } from "../context/ShoppingCartContext"
-
-import storeItems from "../data/itmes.json"
 import { formatCurrency } from "../utilities/formatCurrency"
-
 
 type CartItemProps = {
     id: number
@@ -12,15 +9,14 @@ type CartItemProps = {
 
 export function CartItem({ id, quantity }: CartItemProps) {
 
-    const { removeFromCart, post } = useShoppingCart()
-    const item = storeItems.find(i => i.id === id)
+    const { removeFromCart, post} = useShoppingCart()
+    const item = post.find(i => i.id === id)
     if (item == null) return null
-
     return (<>
 
         <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
             <img
-                src={item.imgUrl}
+                src={item.imageUrl}
                 style={{ width: "125px", height: "75px", objectFit: "cover" }}
             />
             <div className="me-auto">

@@ -1,3 +1,11 @@
+
+import logo from '../assets/logo.png';
+
 export function Home() {
- return <h1>Home</h1>  
+
+    return (
+        <div>
+            <img width="1300px" height="600px" src={logo} alt="Logo" />
+        </div>
+    );
 }

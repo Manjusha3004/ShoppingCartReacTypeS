@@ -14,9 +14,7 @@ type post = {
     id: number
     price: number
     name: string
-    imgUrl: string
-
-
+    imageUrl: string
 }
 
 type ShoppingCartContext = {
@@ -29,6 +27,7 @@ type ShoppingCartContext = {
     cartQuantity: number
     cartItems: CartItem[]
     post: post[]
+
 }
 
 const ShoppingCartContext = createContext({} as ShoppingCartContext)
@@ -41,33 +40,25 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     const [cartItems, setCartItems] = useLocalStorage<CartItem[]>("shopping-cart", [])
     const [isOpen, setIsOpen] = useState(false)
     const [post, setPost] = useState([])
+    
+
 
     const unsplashApiKey = 'I9hJaF3mj3SKwKAp0ed5KV_ZTgc4SC28K6CYxgf-kdQ';
 
-
     const cartQuantity = cartItems.reduce(
-        (quantity, item) => item.quantity + quantity,
+        (quantity, item) => (item.quantity || 0) + quantity,
         0
     )
 
     const openCart = () => setIsOpen(true)
     const closeCart = () => setIsOpen(false)
 
+
     useEffect(() => {
         fetchPosts();
     }, [])
     const fetchPosts = async () => {
-        //
-        // const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
-        /* const res = await fetch(`https://api.unsplash.com/photos/random&count=3&client_id=${unsplashApiKey}`);
-        console.log(res)
-         const posts = await res.json();
-         setPost(posts) 
-         console.log(post)*/
-
-
-
-        fetch(`https://api.unsplash.com/photos/random?count=10&client_id=I9hJaF3mj3SKwKAp0ed5KV_ZTgc4SC28K6CYxgf-kdQ`)
+        fetch(`https://api.unsplash.com/photos/random?count=5&client_id=${unsplashApiKey}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -82,6 +73,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
                     name: `Product ${index + 1}`,
                     price: (Math.random() * 100).toFixed(2), // Random price
                     imageUrl: item.urls.regular, // Unsplash image URL
+
                 }));
                 console.log(items)
                 setPost(items)
@@ -93,9 +85,6 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
 
     }
-
-
-
     function getItemQuantity(id: number) {
         return cartItems.find(item => item.id === id)?.quantity || 0
     }
@@ -146,11 +135,8 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     }
 
     return (
-
         <>
-
-
-            <ShoppingCartContext.Provider value={{
+        <ShoppingCartContext.Provider value={{
                 getItemQuantity,
                 increaseCartQuantity,
                 decreaseCartQuantity,

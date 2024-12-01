@@ -6,7 +6,8 @@ import { Store } from "./pages/Store"
 import { About } from "./pages/About"
 import { Navbar } from './components/Navbar';
 import { ShoppingCartProvider } from './context/ShoppingCartContext';
-
+import "bootstrap/dist/css/bootstrap.min.css" 
+import Footer from './components/Footer';
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
             <Route path="/about" element={<About />} />
           </Routes>
         </Container>
+        <Footer/>
       </ShoppingCartProvider>
     </>
   )
